@@ -42,6 +42,7 @@ function GardenBed({ bed, selected, onSelect, onMove }) {
         height: bed.heightFt * PX_PER_FT,
       }}
       onPointerDown={handlePointerDown}
+      onClick={() => onSelect(bed.id)}
     >
       <div className="garden-bed-label">
         <span className="garden-bed-name">{bed.name}</span>
