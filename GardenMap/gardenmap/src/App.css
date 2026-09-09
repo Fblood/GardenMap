@@ -45,6 +45,20 @@ body {
   letter-spacing: 0.01em;
 }
 
+.header-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.bed-count-chip {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 9px;
+  border-radius: 20px;
+}
+
 .header-actions {
   display: flex;
   gap: 10px;
@@ -100,28 +114,56 @@ body {
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
   color: var(--ink-soft);
   font-size: 14px;
   text-align: center;
+  max-width: 220px;
+}
+.yard-empty-icon {
+  font-size: 32px;
+  opacity: 0.6;
 }
 
 .garden-bed {
   position: absolute;
   background: var(--green-100);
   border: 2px solid var(--green-500);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 8px 10px;
   cursor: grab;
   user-select: none;
   box-shadow: var(--shadow);
-  transition: border-color 0.15s;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+.garden-bed:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(31, 61, 43, 0.18);
 }
 .garden-bed:active {
   cursor: grabbing;
+  transform: translateY(0);
 }
 .garden-bed.selected {
   border-color: var(--green-900);
   box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.25);
+}
+.garden-bed.empty-bed {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--paper),
+    var(--paper) 8px,
+    #f7f4ee 8px,
+    #f7f4ee 16px
+  );
+  border-style: dashed;
+  border-color: var(--soil-line);
+}
+.garden-bed.empty-bed:hover {
+  border-color: var(--green-500);
 }
 
 .garden-bed-label {
@@ -144,6 +186,11 @@ body {
   color: var(--green-700);
   font-weight: 600;
 }
+.garden-bed.empty-bed .garden-bed-count {
+  color: var(--ink-soft);
+  font-weight: 500;
+  font-style: italic;
+}
 
 .bed-panel {
   width: 320px;
@@ -159,6 +206,14 @@ body {
   align-items: center;
   justify-content: space-between;
 }
+.lbl {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
 .bed-panel-header h2 {
   margin: 0;
   font-size: 18px;
@@ -399,6 +454,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: overlay-in 0.15s ease-out;
 }
 .modal-card {
   background: var(--paper);
@@ -409,6 +465,15 @@ body {
   flex-direction: column;
   gap: 12px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: modal-in 0.18s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+@keyframes overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: scale(0.96) translateY(6px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 .modal-card h2 {
   margin: 0;

@@ -34,7 +34,11 @@ function GardenBed({ bed, selected, onSelect, onMove }) {
 
   return (
     <div
-      className={"garden-bed" + (selected ? " selected" : "")}
+      className={
+        "garden-bed" +
+        (selected ? " selected" : "") +
+        (plantingCount === 0 ? " empty-bed" : "")
+      }
       style={{
         left: bed.x,
         top: bed.y,

@@ -157,7 +157,7 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
 
       <div className="planting-list">
         {sorted.length === 0 && (
-          <div className="empty-hint">No plantings logged yet.</div>
+          <div className="empty-hint">🌾 No plantings logged yet.</div>
         )}
         {sorted.map((p) => (
           <div className="planting-item" key={p.id}>

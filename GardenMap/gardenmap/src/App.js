@@ -73,7 +73,14 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🌱 GardenMap</h1>
+        <div className="header-title">
+          <h1>🌱 GardenMap</h1>
+          {loaded && beds.length > 0 && (
+            <span className="bed-count-chip">
+              {beds.length} bed{beds.length === 1 ? "" : "s"}
+            </span>
+          )}
+        </div>
         <div className="header-actions">
           <button
             className="ghost-header-btn"
@@ -90,9 +97,15 @@ function App() {
 
       <div className="app-body">
         <div className="yard" onPointerDown={() => setSelectedId(null)}>
-          {!loaded && <div className="yard-empty">Loading garden data…</div>}
+          {!loaded && (
+            <div className="yard-empty">
+              <span className="yard-empty-icon">⏳</span>
+              Loading garden data…
+            </div>
+          )}
           {loaded && beds.length === 0 && (
             <div className="yard-empty">
+              <span className="yard-empty-icon">🌱</span>
               No beds yet — add one to start mapping your garden.
             </div>
           )}
