@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { searchCultivar } from "../storage";
 
 function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }) {
   const [plant, setPlant] = useState("");
@@ -7,6 +8,36 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
     new Date().toISOString().slice(0, 10)
   );
   const [notes, setNotes] = useState("");
+  const [cultivar, setCultivar] = useState(null);
+  const [cultivarResults, setCultivarResults] = useState([]);
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState("");
+
+  async function handleSearchCultivar() {
+    if (!plant.trim()) return;
+    setSearching(true);
+    setSearchError("");
+    setCultivarResults([]);
+    try {
+      const results = await searchCultivar(plant.trim());
+      setCultivarResults(results.slice(0, 8));
+      if (results.length === 0) setSearchError("No matches found.");
+    } catch (e) {
+      setSearchError("Lookup failed — is the local server running with a Trefle token configured?");
+    }
+    setSearching(false);
+  }
+
+  function pickCultivar(result) {
+    setCultivar({
+      trefleId: result.id,
+      scientificName: result.scientific_name,
+      commonName: result.common_name,
+      family: result.family,
+      imageUrl: result.image_url,
+    });
+    setCultivarResults([]);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -16,10 +47,14 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
       variety: variety.trim(),
       datePlanted,
       notes: notes.trim(),
+      cultivar,
     });
     setPlant("");
     setVariety("");
     setNotes("");
+    setCultivar(null);
+    setCultivarResults([]);
+    setSearchError("");
   }
 
   const sorted = [...bed.plantings].sort(
@@ -35,12 +70,60 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
       <div className="bed-panel-sub">{bed.widthFt}×{bed.heightFt} ft bed</div>
 
       <form className="planting-form" onSubmit={handleSubmit}>
-        <input
-          placeholder="Plant (e.g. Tomato)"
-          value={plant}
-          onChange={(e) => setPlant(e.target.value)}
-          required
-        />
+        <div className="plant-search-row">
+          <input
+            placeholder="Plant (e.g. Tomato)"
+            value={plant}
+            onChange={(e) => {
+              setPlant(e.target.value);
+              setCultivar(null);
+            }}
+            required
+          />
+          <button
+            type="button"
+            className="search-btn"
+            onClick={handleSearchCultivar}
+            disabled={searching || !plant.trim()}
+            title="Look up cultivar data via Trefle"
+          >
+            {searching ? "…" : "🔍"}
+          </button>
+        </div>
+
+        {searchError && <div className="search-error">{searchError}</div>}
+
+        {cultivarResults.length > 0 && (
+          <div className="cultivar-results">
+            {cultivarResults.map((r) => (
+              <button
+                type="button"
+                key={r.id}
+                className="cultivar-result"
+                onClick={() => pickCultivar(r)}
+              >
+                <span className="cr-common">{r.common_name || r.scientific_name}</span>
+                <span className="cr-sci">{r.scientific_name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {cultivar && (
+          <div className="cultivar-attached">
+            🌿 {cultivar.scientificName}
+            {cultivar.family && <span className="ca-family"> · {cultivar.family}</span>}
+            <button
+              type="button"
+              className="icon-btn small"
+              onClick={() => setCultivar(null)}
+              title="Detach cultivar data"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
         <input
           placeholder="Variety (optional, e.g. Brandywine)"
           value={variety}
@@ -70,6 +153,12 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
               <span className="planting-plant">{p.plant}</span>
               {p.variety && <span className="planting-variety"> · {p.variety}</span>}
             </div>
+            {p.cultivar && (
+              <div className="planting-cultivar">
+                🌿 {p.cultivar.scientificName}
+                {p.cultivar.family && <span> · {p.cultivar.family}</span>}
+              </div>
+            )}
             <div className="planting-meta">
               planted {p.datePlanted}
               {p.notes && <span className="planting-notes"> — {p.notes}</span>}

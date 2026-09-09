@@ -201,6 +201,96 @@ body {
   background: var(--green-900);
 }
 
+.plant-search-row {
+  display: flex;
+  gap: 6px;
+}
+.plant-search-row input {
+  flex: 1;
+}
+.search-btn {
+  flex-shrink: 0;
+  width: 36px;
+  border: 1px solid var(--soil-line);
+  border-radius: 6px;
+  background: var(--paper);
+  cursor: pointer;
+  font-size: 14px;
+}
+.search-btn:hover:not(:disabled) {
+  background: var(--green-100);
+}
+.search-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.search-error {
+  font-size: 11px;
+  color: var(--danger);
+  margin-top: -2px;
+}
+
+.cultivar-results {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 160px;
+  overflow-y: auto;
+  border: 1px solid var(--soil-line);
+  border-radius: 6px;
+  padding: 4px;
+  margin-top: -2px;
+}
+.cultivar-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 8px;
+  cursor: pointer;
+  text-align: left;
+}
+.cultivar-result:hover {
+  background: var(--green-100);
+}
+.cr-common {
+  font-size: 12px;
+  font-weight: 600;
+}
+.cr-sci {
+  font-size: 11px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.cultivar-attached {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  background: var(--green-100);
+  color: var(--green-900);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-top: -2px;
+}
+.ca-family {
+  color: var(--ink-soft);
+}
+.cultivar-attached .icon-btn.small {
+  margin-left: auto;
+}
+
+.planting-cultivar {
+  font-size: 11px;
+  color: var(--green-700);
+  margin-top: 2px;
+}
+
 .planting-list {
   display: flex;
   flex-direction: column;

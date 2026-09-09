@@ -6,13 +6,22 @@ import AddBedModal from "./components/AddBedModal";
 import { load, save, newId } from "./storage";
 
 function App() {
-  const [beds, setBeds] = useState(() => load().beds);
+  const [beds, setBeds] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
   const [showAddBed, setShowAddBed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    load().then((state) => {
+      setBeds(state.beds);
+      setLoaded(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return; // don't overwrite the file with [] before the initial load completes
     save({ beds });
-  }, [beds]);
+  }, [beds, loaded]);
 
   function handleCreateBed({ name, widthFt, heightFt }) {
     const bed = {
@@ -71,7 +80,8 @@ function App() {
 
       <div className="app-body">
         <div className="yard" onPointerDown={() => setSelectedId(null)}>
-          {beds.length === 0 && (
+          {!loaded && <div className="yard-empty">Loading garden data…</div>}
+          {loaded && beds.length === 0 && (
             <div className="yard-empty">
               No beds yet — add one to start mapping your garden.
             </div>

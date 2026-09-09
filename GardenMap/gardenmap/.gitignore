@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# local server — real garden data + secret token, never shared/committed
+/server/config.json
+/server/data/*.json
