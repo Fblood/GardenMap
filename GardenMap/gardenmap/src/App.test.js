@@ -14,6 +14,7 @@ beforeEach(() => {
 
 test('renders the GardenMap header and empty-state hint', async () => {
   render(<App />);
-  expect(screen.getByText(/gardenmap/i)).toBeInTheDocument();
+  // exact match: the print report also renders text matching /gardenmap/i
+  expect(screen.getByText('🌱 GardenMap')).toBeInTheDocument();
   expect(await screen.findByText(/no beds yet/i)).toBeInTheDocument();
 });

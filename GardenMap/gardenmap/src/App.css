@@ -45,6 +45,26 @@ body {
   letter-spacing: 0.01em;
 }
 
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ghost-header-btn {
+  background: none;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  padding: 8px 14px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ghost-header-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
 .primary-btn {
   background: var(--green-500);
   color: white;
@@ -404,4 +424,70 @@ body {
 .ghost-btn {
   background: none;
   color: var(--ink-soft);
+}
+
+/* ─── Print report ──────────────────────────────────────────────────────── */
+.print-report {
+  display: none;
+}
+
+@media print {
+  .app {
+    height: auto !important;
+    display: block !important;
+  }
+  .app-header,
+  .app-body,
+  .modal-overlay {
+    display: none !important;
+  }
+  .print-report {
+    display: block;
+    color: #000;
+    font-family: Georgia, "Times New Roman", serif;
+  }
+  .print-report h1 {
+    font-size: 22px;
+    margin-bottom: 2px;
+    color: var(--green-900);
+  }
+  .print-meta {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  .print-bed {
+    margin-bottom: 22px;
+    page-break-inside: avoid;
+  }
+  .print-bed h2 {
+    font-size: 15px;
+    border-bottom: 1px solid #999;
+    padding-bottom: 4px;
+  }
+  .print-dims {
+    font-weight: normal;
+    color: #555;
+    font-size: 12px;
+  }
+  .print-empty {
+    font-style: italic;
+    color: #555;
+    font-size: 12px;
+  }
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin-top: 6px;
+  }
+  .print-table th,
+  .print-table td {
+    border: 1px solid #ccc;
+    padding: 5px 7px;
+    text-align: left;
+  }
+  .print-table th {
+    background: #f0f0f0;
+  }
 }

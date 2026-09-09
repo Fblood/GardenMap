@@ -3,6 +3,7 @@ import "./App.css";
 import GardenBed from "./components/GardenBed";
 import BedPanel from "./components/BedPanel";
 import AddBedModal from "./components/AddBedModal";
+import PrintReport from "./components/PrintReport";
 import { load, save, newId } from "./storage";
 
 function App() {
@@ -73,9 +74,18 @@ function App() {
     <div className="app">
       <header className="app-header">
         <h1>🌱 GardenMap</h1>
-        <button className="primary-btn" onClick={() => setShowAddBed(true)}>
-          + New Bed
-        </button>
+        <div className="header-actions">
+          <button
+            className="ghost-header-btn"
+            onClick={() => window.print()}
+            title="Print or save a PDF report of your garden"
+          >
+            🖨 Print / Export
+          </button>
+          <button className="primary-btn" onClick={() => setShowAddBed(true)}>
+            + New Bed
+          </button>
+        </div>
       </header>
 
       <div className="app-body">
@@ -114,6 +124,8 @@ function App() {
           onCancel={() => setShowAddBed(false)}
         />
       )}
+
+      <PrintReport beds={beds} />
     </div>
   );
 }
