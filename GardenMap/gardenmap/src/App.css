@@ -1,0 +1,317 @@
+:root {
+  --green-900: #1f3d2b;
+  --green-700: #2d5a3d;
+  --green-500: #4a8b5f;
+  --green-100: #e8f2ea;
+  --soil: #f4efe6;
+  --soil-line: #e2d9c8;
+  --paper: #ffffff;
+  --ink: #2a2a24;
+  --ink-soft: #6b6a5f;
+  --danger: #b3492f;
+  --shadow: 0 2px 10px rgba(31, 61, 43, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink);
+  background: var(--soil);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  background: var(--green-900);
+  color: white;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.primary-btn {
+  background: var(--green-500);
+  color: white;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.primary-btn:hover {
+  background: #56a06d;
+}
+
+.app-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.yard {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  background-image:
+    linear-gradient(var(--soil-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--soil-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.yard-empty {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--ink-soft);
+  font-size: 14px;
+  text-align: center;
+}
+
+.garden-bed {
+  position: absolute;
+  background: var(--green-100);
+  border: 2px solid var(--green-500);
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: grab;
+  user-select: none;
+  box-shadow: var(--shadow);
+  transition: border-color 0.15s;
+}
+.garden-bed:active {
+  cursor: grabbing;
+}
+.garden-bed.selected {
+  border-color: var(--green-900);
+  box-shadow: 0 0 0 3px rgba(45, 90, 61, 0.25);
+}
+
+.garden-bed-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.garden-bed-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--green-900);
+}
+.garden-bed-dims {
+  font-size: 10px;
+  color: var(--ink-soft);
+}
+.garden-bed-count {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--green-700);
+  font-weight: 600;
+}
+
+.bed-panel {
+  width: 320px;
+  flex-shrink: 0;
+  background: var(--paper);
+  border-left: 1px solid var(--soil-line);
+  padding: 18px;
+  overflow-y: auto;
+}
+
+.bed-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bed-panel-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--green-900);
+}
+.bed-panel-sub {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--ink-soft);
+  cursor: pointer;
+  padding: 2px 6px;
+}
+.icon-btn:hover {
+  color: var(--ink);
+}
+.icon-btn.small {
+  font-size: 15px;
+  margin-left: auto;
+}
+
+.planting-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--soil-line);
+  margin-bottom: 14px;
+}
+.planting-form input {
+  padding: 8px 10px;
+  border: 1px solid var(--soil-line);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.planting-form input:focus {
+  outline: none;
+  border-color: var(--green-500);
+}
+.planting-form button {
+  margin-top: 2px;
+  background: var(--green-700);
+  color: white;
+  border: none;
+  padding: 9px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.planting-form button:hover {
+  background: var(--green-900);
+}
+
+.planting-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.empty-hint {
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-style: italic;
+}
+.planting-item {
+  position: relative;
+  background: var(--soil);
+  border-radius: 7px;
+  padding: 9px 10px;
+}
+.planting-plant {
+  font-weight: 700;
+  font-size: 13px;
+}
+.planting-variety {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.planting-meta {
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin-top: 3px;
+}
+.planting-item .icon-btn.small {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+}
+
+.danger-link {
+  margin-top: 18px;
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+.danger-link:hover {
+  text-decoration: underline;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 61, 43, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-card {
+  background: var(--paper);
+  border-radius: 10px;
+  padding: 22px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+.modal-card h2 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--green-900);
+}
+.modal-card label {
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  color: var(--ink-soft);
+  gap: 4px;
+}
+.modal-card input {
+  padding: 8px 10px;
+  border: 1px solid var(--soil-line);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+}
+.modal-row {
+  display: flex;
+  gap: 10px;
+}
+.modal-row label {
+  flex: 1;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+.modal-actions button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+.modal-actions button[type="submit"] {
+  background: var(--green-700);
+  color: white;
+}
+.ghost-btn {
+  background: none;
+  color: var(--ink-soft);
+}
