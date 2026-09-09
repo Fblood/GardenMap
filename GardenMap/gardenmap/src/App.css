@@ -311,6 +311,39 @@ body {
   margin-top: 2px;
 }
 
+.rotation-warning {
+  font-size: 11px;
+  background: #fdf1e8;
+  color: #8a4a1f;
+  border: 1px solid #f0cfa8;
+  border-radius: 6px;
+  padding: 7px 9px;
+  margin-top: -2px;
+  line-height: 1.4;
+}
+
+.rotation-history {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--soil-line);
+}
+.rotation-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 11px;
+  padding: 4px 0;
+  color: var(--ink-soft);
+}
+.rh-family {
+  font-weight: 700;
+  color: var(--ink);
+}
+.rh-date {
+  flex-shrink: 0;
+  color: var(--ink-soft);
+}
+
 .planting-list {
   display: flex;
   flex-direction: column;

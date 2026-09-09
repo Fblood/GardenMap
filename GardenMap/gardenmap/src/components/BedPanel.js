@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { searchCultivar } from "../storage";
+import { getFamilyHistory, findRotationConflict } from "../rotation";
 
 function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }) {
   const [plant, setPlant] = useState("");
@@ -12,6 +13,7 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
   const [cultivarResults, setCultivarResults] = useState([]);
   const [searching, setSearching] = useState(false);
   const [searchError, setSearchError] = useState("");
+  const [rotationWarning, setRotationWarning] = useState(null);
 
   async function handleSearchCultivar() {
     if (!plant.trim()) return;
@@ -37,6 +39,7 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
       imageUrl: result.image_url,
     });
     setCultivarResults([]);
+    setRotationWarning(findRotationConflict(bed, result.family));
   }
 
   function handleSubmit(e) {
@@ -55,11 +58,13 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
     setCultivar(null);
     setCultivarResults([]);
     setSearchError("");
+    setRotationWarning(null);
   }
 
   const sorted = [...bed.plantings].sort(
     (a, b) => new Date(b.datePlanted) - new Date(a.datePlanted)
   );
+  const familyHistory = getFamilyHistory(bed);
 
   return (
     <div className="bed-panel">
@@ -124,6 +129,13 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
           </div>
         )}
 
+        {rotationWarning && (
+          <div className="rotation-warning">
+            ⚠ {rotationWarning.family} was last grown here {rotationWarning.daysSince}d ago
+            ({rotationWarning.plant}, {rotationWarning.datePlanted}) — consider rotating families.
+          </div>
+        )}
+
         <input
           placeholder="Variety (optional, e.g. Brandywine)"
           value={variety}
@@ -173,6 +185,19 @@ function BedPanel({ bed, onAddPlanting, onDeletePlanting, onDeleteBed, onClose }
           </div>
         ))}
       </div>
+
+      {familyHistory.length > 0 && (
+        <div className="rotation-history">
+          <div className="lbl" style={{ marginBottom: 6 }}>ROTATION HISTORY</div>
+          {familyHistory.map((h, i) => (
+            <div className="rotation-row" key={i}>
+              <span className="rh-family">{h.family}</span>
+              <span className="rh-plant"> · {h.plant}</span>
+              <span className="rh-date">{h.datePlanted}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       <button className="danger-link" onClick={() => onDeleteBed(bed.id)}>
         Delete this bed
